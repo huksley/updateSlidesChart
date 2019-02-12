@@ -10,13 +10,6 @@ provider:
   stackTags:
     STACK: "update-chart"
   description: Updates chart in Google Slides with data from Google Sheets
-  environment:
-    CHART_OBJECT_ID: ${env:CHART_OBJECT_ID}
-	GOOGLE_SHEETS_CLIENT_EMAIL: ${env:GOOGLE_SHEETS_CLIENT_EMAIL}
-	GOOGLE_SHEETS_CLIENT_ID: ${env:GOOGLE_SHEETS_CLIENT_ID}
-	GOOGLE_SHEETS_CLIENT_KEY: ${env:GOOGLE_SHEETS_CLIENT_KEY}
-	GOOGLE_SHEETS_CLIENT_SECRET: ${env:GOOGLE_SHEETS_CLIENT_SECRET}
-	PRESENTATION_ID: ${env:PRESENTATION_ID}
 
 package:
   exclude:
@@ -29,7 +22,18 @@ package:
 
 functions:
   updateSlidesChart:
-    handler: handler.updateSlidesChart
+    handler: src/handler.updateSlidesChart
+    environment:
+      # ID of chart, for example g4efbd3f5ed_0_5, can be obtained via API https://developers.google.com/slides/reference/rest/v1/presentations/
+      CHART_OBJECT_ID: ${ssm:/test/update-chart/CHART_OBJECT_ID}
+      # client_email from privatekey .json file
+      GOOGLE_SHEETS_CLIENT_EMAIL: ${ssm:/test/update-chart/GOOGLE_SHEETS_CLIENT_EMAIL}
+      # client_id from privatekey .json file
+      GOOGLE_SHEETS_CLIENT_ID: ${ssm:/test/update-chart/GOOGLE_SHEETS_CLIENT_ID}
+      # private_key properly new line separated from privatekey .json file
+      GOOGLE_SHEETS_CLIENT_KEY: ${ssm:/test/update-chart/GOOGLE_SHEETS_CLIENT_KEY~true}
+      # Presentation ID from URL
+      PRESENTATION_ID: ${ssm:/test/update-chart/PRESENTATION_ID}
     events:
       - schedule:
           rate: rate(1 minute)

@@ -37,18 +37,19 @@ function updateSlidesChartAuth(presentationId: string, chartObjectId: string, au
         ]
       }
     }).then((res: any) => {
-      console.log(res);
+      console.log(res && res.data ? res.data : res);
       resolve(res);
     }).catch((err: Error) => {
-      console.log(err);
+      console.warn(err);
       reject(err)
     })
   })
 }
 
 module.exports.updateSlidesChart = (event: any, context: Context) => {
-  authorize().then(auth => updateSlidesChartAuth(process.env.PRESENTATION_ID, process.env.CHART_OBJECT_ID, auth)).catch(err => console.warn(err))
-  context.done()
+  return authorize().then(auth => updateSlidesChartAuth(process.env.PRESENTATION_ID, process.env.CHART_OBJECT_ID, auth).then(_ => {
+    context.done()
+  })).catch(err => console.warn(err))
 }
 
 if (process.env.RUN_CONSOLE) {

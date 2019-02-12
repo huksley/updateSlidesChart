@@ -8,6 +8,10 @@
   - Define vars in AWS Systems Manager / Parameter Store (see serverless.yml for a list)
   - Deploy `npm run sls:deploy`
 
+## Fixme
+
+  - Take env variables directly from AWS Systems Manager / Parameter Store 
+
 ## Links
 
   * https://github.com/googleapis/google-api-nodejs-client/blob/master/src/apis/slides/v1.ts
