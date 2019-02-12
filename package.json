@@ -1,0 +1,25 @@
+{
+  "name": "updateSlidesChart",
+  "version": "1.0.0",
+  "description": "Updates chart in Google Slides",
+  "author": "",
+  "license": "MIT",
+  "main": "src/handler.js",
+  "scripts": {
+    "build": "tsc",
+    "local": "cross-env RUN_CONSOLE=1 chamber exec test/update-chart -- node src/handler",
+    "sls:deploy": "cross-env RUN_CONSOLE=1 chamber exec test/update-chart -- serverless deploy"
+  },
+  "dependencies": {
+    "googleapis": "^31.0.2"
+  },
+  "devDependencies": {
+    "tslint": "^5.12.1",
+    "tslint-config-standard": "^8.0.1",
+    "@types/aws-lambda": "^8.10.18",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/node": "^10.12.19",
+    "aws-lambda": "^0.1.2",
+    "cross-env": "^5.2.0"
+  }
+}

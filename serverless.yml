@@ -1,0 +1,38 @@
+service: updateSlidesChart
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  memorySize: 128
+  timeout: 10
+  versionFunctions: false
+  stackTags:
+    STACK: "update-chart"
+  description: Updates chart in Google Slides with data from Google Sheets
+  environment:
+    CHART_OBJECT_ID: ${env:CHART_OBJECT_ID}
+	GOOGLE_SHEETS_CLIENT_EMAIL: ${env:GOOGLE_SHEETS_CLIENT_EMAIL}
+	GOOGLE_SHEETS_CLIENT_ID: ${env:GOOGLE_SHEETS_CLIENT_ID}
+	GOOGLE_SHEETS_CLIENT_KEY: ${env:GOOGLE_SHEETS_CLIENT_KEY}
+	GOOGLE_SHEETS_CLIENT_SECRET: ${env:GOOGLE_SHEETS_CLIENT_SECRET}
+	PRESENTATION_ID: ${env:PRESENTATION_ID}
+
+package:
+  exclude:
+    - 'README.md'
+    - 'tsconfig.json'
+    - '**/*.ts'
+    - '**/*.js.bak'
+    - 'chamber-template'
+    - '.gitignore'
+
+functions:
+  updateSlidesChart:
+    handler: handler.updateSlidesChart
+    events:
+      - schedule:
+          rate: rate(1 minute)
+          enabled: true
+
+    
